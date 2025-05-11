@@ -1,0 +1,27 @@
+[monday]
+open = "8:30"
+close = "5:00"
+
+[tuesday]
+open = "8:30"
+close = "6:00"
+
+[wednesday]
+open = "8:30"
+close = "5:00"
+
+[thursday]
+open = "8:30"
+close = "6:00"
+
+[friday]
+open = ""
+close = ""
+
+[saturday]
+open = ""
+close = ""
+
+[sunday]
+open = ""
+close = ""

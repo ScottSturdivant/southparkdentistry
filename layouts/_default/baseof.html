@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{ partial "head.html" . }}
+</head>
+
+<body>
+    <!-- Modern Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <a href="/" class="site-logo">Southpark Dentistry</a>
+            
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fa fa-bars"></i>
+            </button>
+            
+            <nav class="main-nav" id="mainNav">
+                <ul>
+                    <li><a href="/sturdivant/">Dr. Sturdivant</a></li>
+                    <li><a href="/insurance/">Insurance</a></li>
+                    <li><a href="https://mxmerchant.com/mxcustomer/d/63b13549-4ee4-4daf-abbe-0ecbe496fcdd/v3">Pay Your Bill</a></li>
+                    <li><a href="https://app.nexhealth.com/appt/southpark-dentisty" class="btn btn-primary btn-sm">Schedule Appointment</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {{ block "main" . }}{{ end }}
+    </main>
+
+    <!-- Modern Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="pure-g">
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <a href="/" class="footer-logo">Southpark Dentistry</a>
+                    <p>Providing quality dental care to Littleton and the surrounding Colorado communities.</p>
+                </div>
+                
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-nav">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/sturdivant/">Dr. Sturdivant</a></li>
+                        <li><a href="/insurance/">Insurance</a></li>
+                        <li><a href="https://app.nexhealth.com/appt/southpark-dentisty">Schedule Appointment</a></li>
+                        <li><a href="https://mxmerchant.com/mxcustomer/d/63b13549-4ee4-4daf-abbe-0ecbe496fcdd/v3">Pay Your Bill</a></li>
+                    </ul>
+                </div>
+                
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <h3 class="footer-heading">Contact Us</h3>
+                    <div class="footer-contact-item">
+                        <i class="fa fa-map-marker footer-contact-icon"></i>
+                        <span>{{ .Site.Params.address }}</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa fa-phone footer-contact-icon"></i>
+                        <span><a href="tel:+1-{{ .Site.Params.phone }}" style="color: inherit;">{{ partial "phone-format.html" (dict "phone" .Site.Params.phone) }}</a></span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa fa-fax footer-contact-icon"></i>
+                        <span>{{ partial "phone-format.html" (dict "phone" .Site.Params.fax) }}</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa fa-envelope-o footer-contact-icon"></i>
+                        <span><a href="mailto:{{ .Site.Params.email }}" style="color: inherit;">{{ .Site.Params.email }}</a></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-copyright">
+                <p>© {{ now.Format "2006" }}, Southpark Dentistry, LLC. All rights reserved.</p>
+                <p>This site is built with <i class="fa fa-heart" aria-hidden="true"></i> on <a href="https://aws.amazon.com">AWS</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/modern-ui.js"></script>
+    <script src="/js/business-hours.js"></script>
+</body>
+</html>

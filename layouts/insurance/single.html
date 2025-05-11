@@ -1,0 +1,98 @@
+{{ define "main" }}
+    <!-- Page Header Banner -->
+    <section class="banner" style="height: 350px;">
+        <div class="banner-content">
+            <h1>{{ .Title }}</h1>
+        </div>
+    </section>
+
+    <!-- Insurance Information Section -->
+    <section class="section py-5">
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <div class="content">
+                        <div class="text-center mb-4">
+                            <!-- Replacing the external icon with FontAwesome -->
+                            <i class="fa fa-id-card-o" style="font-size: 60px; color: #1c8ece; margin-bottom: 15px;"></i>
+                            <h2 class="section-title">Insurance Options</h2>
+                            <p class="section-subtitle">We strive to make dental care accessible for everyone</p>
+                        </div>
+                        
+                        <div style="font-size: 1.1rem; line-height: 1.7; color: #444;">
+                            {{ .Content }}
+                        </div>
+                        
+                        <div class="alert" style="background-color: #f8f9fa; border-left: 4px solid #1c8ece; padding: 15px; margin-top: 30px;">
+                            <p style="margin-bottom: 0;"><strong>Note:</strong> All listed insurances are PPO unless otherwise specified.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Insurance FAQ Section -->
+    <section class="section py-5" style="background-color: #f8f9fa;">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="section-title">Insurance FAQ</h2>
+                <p class="section-subtitle">Common questions about dental insurance</p>
+            </div>
+            
+            <div class="pure-g">
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="card" style="height: calc(100% - 20px); margin-bottom: 20px;">
+                        <div class="card-body">
+                            <h3 class="card-title" style="color: var(--primary);">What if I don't have insurance?</h3>
+                            <p>We offer a variety of payment options to make dental care accessible for those without insurance. Please contact our office to discuss available options.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="card" style="height: calc(100% - 20px); margin-bottom: 20px;">
+                        <div class="card-body">
+                            <h3 class="card-title" style="color: var(--primary);">How do I know what my insurance covers?</h3>
+                            <p>Our team will help you understand your insurance benefits. We can provide estimates for procedures and help you maximize your coverage.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="card" style="height: calc(100% - 20px); margin-bottom: 20px;">
+                        <div class="card-body">
+                            <h3 class="card-title" style="color: var(--primary);">Do you accept Medicaid?</h3>
+                            <p>Yes! We are proud to be a Medicaid provider and welcome Medicaid patients. We believe everyone deserves access to quality dental care.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="card" style="height: calc(100% - 20px); margin-bottom: 20px;">
+                        <div class="card-body">
+                            <h3 class="card-title" style="color: var(--primary);">Do you offer payment plans?</h3>
+                            <p>We work with patients to create payment arrangements that fit their budget. Please contact our office to discuss your specific situation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Call to Action Section -->
+    <section class="section py-5" style="background-color: #1c8ece; color: white;">
+        <div class="container text-center">
+            <h2 style="color: white; margin-bottom: 1.5rem;">Have Questions About Insurance?</h2>
+            <p style="margin-bottom: 2rem; font-size: 1.2rem;">Our friendly staff is ready to help you understand your coverage and options.</p>
+            <div>
+                <a href="tel:+1-{{ .Site.Params.phone }}" class="btn" style="background-color: white; color: #1c8ece; font-weight: bold; padding: 15px 30px; font-size: 1.2rem; margin-right: 15px;">
+                    <i class="fa fa-phone"></i> Call Us
+                </a>
+                <a href="https://app.nexhealth.com/appt/southpark-dentisty" class="btn" style="background-color: white; color: #1c8ece; font-weight: bold; padding: 15px 30px; font-size: 1.2rem;">
+                    Schedule an Appointment
+                </a>
+            </div>
+        </div>
+    </section>
+    {{ end }}

@@ -1,0 +1,12 @@
+{{/* Format a phone number with proper parentheses */}}
+{{- $phone := .phone -}}
+{{- $formatted := "" -}}
+
+{{- if $phone -}}
+  {{- $area := substr $phone 0 3 -}}
+  {{- $prefix := substr $phone 3 3 -}}
+  {{- $line := substr $phone 6 4 -}}
+  {{- $formatted = print "(" $area ") " $prefix "-" $line -}}
+{{- end -}}
+
+{{- return $formatted -}}

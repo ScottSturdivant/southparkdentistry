@@ -1,0 +1,49 @@
+{{ $weekday := now.Format "Monday" | lower }}
+{{ $hours := index .Site.Data.hours $weekday }}
+
+{{ if $hours.open }}
+  Open today until {{ $hours.close }} PM
+{{ else }}
+  {{ $found := false }}
+  {{ $nextDay := "" }}
+  {{ $nextOpen := "" }}
+  
+  {{ $days := slice "monday" "tuesday" "wednesday" "thursday" "friday" "saturday" "sunday" }}
+  {{ $currentIdx := -1 }}
+  
+  {{ range $idx, $day := $days }}
+    {{ if eq $day $weekday }}
+      {{ $currentIdx = $idx }}
+    {{ end }}
+  {{ end }}
+  
+  {{ if ge $currentIdx 0 }}
+    {{ $wrapped := false }}
+    {{ $checkIdx := add $currentIdx 1 }}
+    
+    {{ range $i := seq 1 7 }}
+      {{ if ge $checkIdx 7 }}
+        {{ $checkIdx = 0 }}
+        {{ $wrapped = true }}
+      {{ end }}
+      
+      {{ $dayToCheck := index $days $checkIdx }}
+      {{ $dayHours := index $.Site.Data.hours $dayToCheck }}
+      
+      {{ if $dayHours.open }}
+        {{ $nextDay = $dayToCheck }}
+        {{ $nextOpen = $dayHours.open }}
+        {{ $found = true }}
+        {{ break }}
+      {{ end }}
+      
+      {{ $checkIdx = add $checkIdx 1 }}
+    {{ end }}
+  {{ end }}
+  
+  {{ if $found }}
+    Closed today. We are open {{ humanize $nextDay }} at {{ $nextOpen }} AM
+  {{ else }}
+    Closed for the weekend. See you on Monday!
+  {{ end }}
+  {{ end }}

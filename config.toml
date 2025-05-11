@@ -1,0 +1,17 @@
+baseURL = "https://www.southparkdentistryco.com/"
+languageCode = "en-us"
+title = "Southpark Dentistry"
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "taxonomyTerm"]
+
+[params]
+  description = "Southpark Dentistry - Dr. Sturdivant"
+  year = 2025
+  phone = "3037388826"
+  address = "8199 SouthPark Ln #120, Littleton, CO, 80120"
+  fax = "3037388823"
+  email = "southparkdentistry120@gmail.com"
+  timezone = "America/Denver"
+
+[markup.goldmark.renderer]
+  unsafe = true

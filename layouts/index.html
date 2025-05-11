@@ -1,0 +1,216 @@
+{{ define "main" }}
+    <!-- Modern Hero Banner -->
+    <section class="banner">
+        <div class="banner-content">
+            <h1>Southpark Dentistry</h1>
+            <h2>Serving Littleton and the surrounding Colorado communities</h2>
+            <h3 id="business-hours-status">{{ partial "open-info.html" . }}</h3>
+            <a href="tel:+1-{{ .Site.Params.phone }}" class="phone-btn">
+                <i class="fa fa-phone" aria-hidden="true"></i> {{ partial "phone-format.html" (dict "phone" .Site.Params.phone) }}
+            </a>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="section py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Welcome to Southpark Dentistry</h2>
+                <p class="section-subtitle">We provide quality, compassionate dental care in a comfortable environment.</p>
+            </div>
+            
+            <div class="content">
+                <p>Southpark Dentistry is an independent dental care provider. We welcome patients from all socio-economic groups. All of our patients are respected clients.</p>
+                <p>Please contact us with any questions, comments, or concerns. All comments and suggestions are important to us and enable us to treat our patients as responsibly and professionally as possible. A staff member will respond to email messages as soon as possible.</p>
+                <p>In a dental emergency, please call our office at <a href="tel:+1-{{ .Site.Params.phone }}">{{ partial "phone-format.html" (dict "phone" .Site.Params.phone) }}</a> - rather than e-mail - to enable us to give you timely, efficient assistance.</p>
+                <div class="text-center mt-4">
+                    <a class="btn btn-primary" href="https://mxmerchant.com/mxcustomer/d/63b13549-4ee4-4daf-abbe-0ecbe496fcdd/v3">Pay your bill</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Information Grid Section -->
+    <section class="section py-5" style="background-color: #f8f9fa;">
+        <div class="container">
+            <div class="pure-g">
+                <!-- Contact Information -->
+                <div class="pure-u-1 pure-u-xl-1-4 pure-u-md-1-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <i class="fa fa-address-card-o feature-icon" style="font-size: 1.5rem;"></i>
+                                Contact Information
+                            </h3>
+                            <ul class="contact-info-list">
+                                <li class="contact-info-item">
+                                    <i class="fa fa-map-marker contact-icon"></i>
+                                    <span class="contact-text">{{ .Site.Params.address }}</span>
+                                </li>
+                                <li class="contact-info-item">
+                                    <i class="fa fa-phone contact-icon"></i>
+                                    <span class="contact-text"><a href="tel:+1-{{ .Site.Params.phone }}">{{ partial "phone-format.html" (dict "phone" .Site.Params.phone) }}</a></span>
+                                </li>
+                                <li class="contact-info-item">
+                                    <i class="fa fa-fax contact-icon"></i>
+                                    <span class="contact-text">{{ partial "phone-format.html" (dict "phone" .Site.Params.fax) }}</span>
+                                </li>
+                                <li class="contact-info-item">
+                                    <i class="fa fa-envelope-o contact-icon"></i>
+                                    <span class="contact-text"><a href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Business Hours -->
+                <div class="pure-u-1 pure-u-xl-1-4 pure-u-md-1-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <i class="fa fa-clock-o feature-icon" style="font-size: 1.5rem;"></i>
+                                Business Hours
+                            </h3>
+                            <table class="pure-table" style="width:100%">
+                                <tbody>
+                                    {{ $i := 0 }}
+                                    {{ range $day, $hours := .Site.Data.hours }}
+                                    {{ $i = add $i 1 }}
+                                    <tr class="{{ if eq (mod $i 2) 0 }}pure-table-odd{{ end }}">
+                                        <td>{{ humanize $day }}</td>
+                                        {{ if $hours.open }}
+                                        <td>{{ $hours.open }} AM - {{ $hours.close }} PM</td>
+                                        {{ else }}
+                                        <td>Closed</td>
+                                        {{ end }}
+                                    </tr>
+                                    {{ end }}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Amenities -->
+                <div class="pure-u-1 pure-u-xl-1-4 pure-u-md-1-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <i class="fa fa-star feature-icon" style="font-size: 1.5rem;"></i>
+                                Amenities
+                            </h3>
+                            <div class="grid-container" style="grid-template-columns: 1fr 1fr; gap: 10px; padding: 0;">
+                                <div class="feature-box" style="padding: 10px; text-align: left;">
+                                    <i class="fa fa-ticket" aria-hidden="true"></i>
+                                    <span style="margin-left: 10px;">Medicaid Accepted</span>
+                                </div>
+                                <div class="feature-box" style="padding: 10px; text-align: left;">
+                                    <i class="fa fa-wifi" aria-hidden="true"></i>
+                                    <span style="margin-left: 10px;">Guest WiFi</span>
+                                </div>
+                                <div class="feature-box" style="padding: 10px; text-align: left;">
+                                    <i class="fa fa-television" aria-hidden="true"></i>
+                                    <span style="margin-left: 10px;">Smart TVs</span>
+                                </div>
+                                <div class="feature-box" style="padding: 10px; text-align: left;">
+                                    <i class="fa fa-headphones" aria-hidden="true"></i>
+                                    <span style="margin-left: 10px;">Wireless Headphones</span>
+                                </div>
+                                <div class="feature-box" style="padding: 10px; text-align: left;">
+                                    <i class="fa fa-bed" aria-hidden="true"></i>
+                                    <span style="margin-left: 10px;">Neck Pillows</span>
+                                </div>
+                                <div class="feature-box" style="padding: 10px; text-align: left;">
+                                    <i class="fa fa-child" aria-hidden="true"></i>
+                                    <span style="margin-left: 10px;">Kid Friendly</span>
+                                </div>
+                                <div class="feature-box" style="padding: 10px; text-align: left;">
+                                    <i class="fa fa-comments-o" aria-hidden="true"></i>
+                                    <span style="margin-left: 10px;">Se habla Español</span>
+                                </div>
+                                <div class="feature-box" style="padding: 10px; text-align: left;">
+                                    <i class="fa fa-wheelchair" aria-hidden="true"></i>
+                                    <span style="margin-left: 10px;">Wheelchair Accessible</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dental Services -->
+                <div class="pure-u-1 pure-u-xl-1-4 pure-u-md-1-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <i class="fa fa-medkit feature-icon" style="font-size: 1.5rem;"></i>
+                                Dental Services
+                            </h3>
+                            <ul class="services-list">
+                                <li class="services-item">Cleanings & Check-Ups</li>
+                                <li class="services-item">Crowns</li>
+                                <li class="services-item">Dentures</li>
+                                <li class="services-item">Implants</li>
+                                <li class="services-item">Implant Restoration</li>
+                                <li class="services-item">Tooth Extractions</li>
+                                <li class="services-item">Gum Disease</li>
+                                <li class="services-item">Composite Fillings</li>
+                                <li class="services-item">Bridges</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="section py-4">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="section-title">Find Us</h2>
+                <p class="section-subtitle">Conveniently located in Littleton, Colorado</p>
+            </div>
+            
+            <div class="map-container">
+                <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3075.622483069322!2d-105.00441768389737!3d39.56811911473244!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876c82246e41b50b%3A0xae45fbf138d9ca3d!2sSouthpark%20Dentistry!5e0!3m2!1sen!2sus!4v1573190122196!5m2!1sen!2sus" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Office Gallery Section -->
+    <section class="section py-5">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="section-title">Our Office</h2>
+                <p class="section-subtitle">Modern, comfortable facilities to ensure you have a pleasant experience</p>
+            </div>
+            
+            <div class="office-gallery">
+                <div class="gallery-item">
+                    <img class="gallery-img" src="/images/office2.jpg" alt="Office Interior">
+                </div>
+                <div class="gallery-item">
+                    <img class="gallery-img" src="/images/office5.jpg" alt="Office Interior">
+                </div>
+                <div class="gallery-item">
+                    <img class="gallery-img" src="/images/office4.jpg" alt="Office Interior">
+                </div>
+                <div class="gallery-item">
+                    <img class="gallery-img" src="/images/office6.jpg" alt="Office Interior">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="section py-5" style="background-color: #1c8ece; color: white;">
+        <div class="container text-center">
+            <h2 style="color: white; margin-bottom: 1.5rem;">Ready to Schedule Your Visit?</h2>
+            <p style="margin-bottom: 2rem; font-size: 1.2rem;">We're looking forward to helping you achieve optimal dental health.</p>
+            <a href="https://app.nexhealth.com/appt/southpark-dentisty" class="btn" style="background-color: white; color: #1c8ece; font-weight: bold; padding: 15px 30px; font-size: 1.2rem;">
+                Schedule an Appointment
+            </a>
+        </div>
+    </section>
+{{ end }}
