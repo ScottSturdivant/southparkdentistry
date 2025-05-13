@@ -469,6 +469,8 @@ img {
   margin: 20px auto;
   max-width: 800px;
   position: relative;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .testimonial::before {
@@ -481,12 +483,6 @@ img {
   top: 10px;
   left: 20px;
   line-height: 1;
-}
-
-.testimonial-text {
-  font-style: italic;
-  margin-bottom: 1.5rem;
-  color: var(--text);
 }
 
 .testimonial-author {
@@ -957,8 +953,7 @@ img {
   background-color: rgba(0,0,0,0.02);
 }
 
-/* Google Reviews Section - Add this to the end of your modern.css file */
-
+/* Google Reviews Section */
 #google-reviews {
   padding: 20px 0;
 }
@@ -987,7 +982,7 @@ img {
   gap: 25px;
   max-width: 1200px;
   margin: 0 auto;
-  }
+}
 
 .review-item {
   display: flex;
@@ -1044,15 +1039,81 @@ img {
   color: var(--text-muted);
 }
 
+/* Updated testimonial-text with fade effect */
 .testimonial-text {
-  flex-grow: 1;
-  font-style: italic;
-  margin: 0;
-  color: var(--text);
+  position: relative;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 6;
+  -webkit-line-clamp: 5;  /* Show max 5 lines of text */
   -webkit-box-orient: vertical;
+  min-height: 100px;
+  max-height: 150px;  /* Set a consistent max height */
+  margin-bottom: 0;
+  padding-right: 1rem; /* Space for the fade effect */
+  font-style: italic;
+  color: var(--text);
+  flex-grow: 1;
+}
+
+/* Add a fade effect to the bottom of truncated text */
+.testimonial-text::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 90%);
+  pointer-events: none; /* Make sure this doesn't interfere with any clicks */
+}
+
+/* Optional: Add a "read more" ellipsis at the end */
+.testimonial-text.truncated::before {
+  content: "...";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0 5px;
+  background-color: white;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+/* Expanded state styles */
+.testimonial.expanded {
+  /* Optional: Make the expanded card more prominent */
+  transform: scale(1.02);
+  box-shadow: 0 10px 30px var(--shadow-stronger);
+  z-index: 10;
+}
+
+/* Style for expanded text */
+.testimonial.expanded .testimonial-text {
+  max-height: none;
+  -webkit-line-clamp: unset;
+  margin-bottom: 0.5rem;
+}
+
+/* Remove fade out effect when expanded */
+.testimonial.expanded .testimonial-text::after {
+  display: none;
+}
+
+/* Remove ellipsis when expanded */
+.testimonial.expanded .testimonial-text.truncated::before {
+  display: none;
+}
+
+/* Add a "Read less" link to expanded testimonials */
+.testimonial.expanded .testimonial-footer {
+  display: block;
+  text-align: right;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.testimonial .testimonial-footer {
+  display: none;
 }
 
 /* Responsive styles for reviews */
@@ -1071,9 +1132,13 @@ img {
   .review-item:nth-child(n+4) {
     display: none;
   }
+  
+  /* Adjust the height for mobile views */
+  .testimonial-text {
+    min-height: 80px;
+    max-height: 130px;
+  }
 }
-
-/* Add these styles to your CSS */
 
 /* Style for the "Write a Review" prompt card that appears when we have fewer than 6 reviews */
 .write-review-prompt {
@@ -1084,11 +1149,14 @@ img {
   border: 2px dashed var(--border);
   background-color: rgba(255, 255, 255, 0.8);
   transition: all 0.3s ease;
+  cursor: default;
 }
 
 .write-review-prompt:hover {
   border-color: var(--primary);
   background-color: rgba(28, 142, 206, 0.05);
+  transform: none;
+  box-shadow: 0 5px 15px var(--shadow);
 }
 
 .write-review-content {
@@ -1103,13 +1171,4 @@ img {
 .write-review-content p {
   margin-bottom: 20px;
   color: var(--text-muted);
-}
-
-/* Make sure testimonial text doesn't overflow and has consistent height */
-.testimonial-text {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 5;  /* Show max 5 lines of text */
-  -webkit-box-orient: vertical;
-  min-height: 100px;
 }

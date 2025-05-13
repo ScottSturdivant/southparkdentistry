@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // === GOOGLE REVIEWS ===
-// Updated initGoogleReviews function with better empty review handling
 function initGoogleReviews() {
   const reviewsContainer = document.getElementById('google-reviews');
   if (!reviewsContainer) return;
@@ -17,26 +16,21 @@ function initGoogleReviews() {
   // Show loading indicator
   reviewsContainer.innerHTML = '<div class="text-center"><i class="fa fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i><p>Loading reviews...</p></div>';
   
-  console.log('Fetching reviews from: /.netlify/functions/getGoogleReviews');
-  
   // Fetch reviews from our Netlify function
   fetch('/.netlify/functions/getGoogleReviews')
     .then(response => {
-      console.log('Response status:', response.status);
       if (!response.ok) {
         throw new Error(`Network error: ${response.status} ${response.statusText}`);
       }
       return response.json();
     })
     .then(data => {
-      console.log('Received data:', data);
-      
       if (!data.reviews || data.reviews.length === 0) {
         reviewsContainer.innerHTML = '<div class="text-center">No reviews available at this time.</div>';
         return;
       }
       
-      // Sort by most recent first (should already be sorted, but just to be sure)
+      // Sort by most recent first
       data.reviews.sort((a, b) => b.time - a.time);
       
       // Limit to 6 reviews for display
@@ -56,6 +50,9 @@ function initGoogleReviews() {
             <div class="review-date">${formatDate(review.time)}</div>
           </div>
           <p class="testimonial-text">${review.text}</p>
+          <div class="testimonial-footer">
+            <a href="#" class="read-less-link">Read less</a>
+          </div>
         </div>
       `).join('');
       
@@ -94,6 +91,9 @@ function initGoogleReviews() {
           reviewsSlider.appendChild(writeReviewElement);
         }
       }
+      
+      // Add a small delay to ensure content has rendered, then detect truncated text
+      setTimeout(setupReviews, 100);
     })
     .catch(error => {
       console.error('Error fetching reviews:', error);
@@ -111,5 +111,54 @@ function initGoogleReviews() {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 
                     'July', 'August', 'September', 'October', 'November', 'December'];
     return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+  }
+  
+  // Setup review interactions
+  function setupReviews() {
+    detectTruncatedText();
+    setupExpandableReviews();
+    
+    // Also check on window resize, as container dimensions might change
+    window.addEventListener('resize', detectTruncatedText);
+  }
+  
+  // Detect truncated text and add the appropriate class
+  function detectTruncatedText() {
+    const reviewTexts = document.querySelectorAll('.testimonial-text');
+    
+    reviewTexts.forEach(element => {
+      // Check if the element is actually truncated
+      if (element.scrollHeight > element.clientHeight) {
+        element.classList.add('truncated');
+      } else {
+        element.classList.remove('truncated');
+      }
+    });
+  }
+  
+  // Make reviews expandable on click
+  function setupExpandableReviews() {
+    const reviewItems = document.querySelectorAll('.testimonial:not(.write-review-prompt)');
+    
+    reviewItems.forEach(review => {
+      // Add click event to expand/collapse
+      review.addEventListener('click', function(e) {
+        // Don't expand if clicking on a link
+        if (e.target.tagName === 'A') return;
+        
+        // Toggle expanded state
+        this.classList.toggle('expanded');
+      });
+      
+      // Add click event for "Read less" link
+      const readLessLink = review.querySelector('.read-less-link');
+      if (readLessLink) {
+        readLessLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation(); // Prevent the event from bubbling up
+          review.classList.remove('expanded');
+        });
+      }
+    });
   }
 }
