@@ -62,7 +62,6 @@ exports.handler = async function(event) {
     console.log(`Found ${apiReviews.length} total reviews from API`);
     
     // Additional reviews that we know of but may not be in the API results
-    // These reviews come from the JSON you shared previously
     const additionalKnownReviews = [
       {
         "author_name": "deceptacon 101",
@@ -118,22 +117,35 @@ exports.handler = async function(event) {
       }
     });
     
-    // Filter to only 5-star reviews
-    const fiveStarReviews = allReviews.filter(review => review.rating === 5);
-    console.log(`Found ${fiveStarReviews.length} 5-star reviews total`);
+    // Filter to only include 5-star reviews WITH text
+    const filteredReviews = allReviews.filter(review => 
+      review.rating === 5 && // Only 5-star reviews
+      review.text && // Has text property
+      review.text.trim() !== '' // Text is not empty or just whitespace
+    );
+    
+    console.log(`Found ${filteredReviews.length} 5-star reviews with text`);
     
     // Sort by newest first
-    fiveStarReviews.sort((a, b) => b.time - a.time);
+    filteredReviews.sort((a, b) => b.time - a.time);
+    
+    // Log some debug info
+    console.log(`Reviews before filtering: ${allReviews.length}`);
+    console.log(`Reviews after filtering for 5-stars with text: ${filteredReviews.length}`);
+    
+    // If we don't have enough reviews with text, let the frontend know
+    const hasEnoughReviews = filteredReviews.length >= 6;
     
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({ 
-        reviews: fiveStarReviews,
+        reviews: filteredReviews,
         rating: response.data.result.rating,
         user_ratings_total: response.data.result.user_ratings_total,
         totalReviewsCount: allReviews.length,
-        fiveStarCount: fiveStarReviews.length
+        filteredReviewsCount: filteredReviews.length,
+        hasEnoughReviews: hasEnoughReviews
       })
     };
   } catch (error) {

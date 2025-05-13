@@ -1072,3 +1072,44 @@ img {
     display: none;
   }
 }
+
+/* Add these styles to your CSS */
+
+/* Style for the "Write a Review" prompt card that appears when we have fewer than 6 reviews */
+.write-review-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 2px dashed var(--border);
+  background-color: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+}
+
+.write-review-prompt:hover {
+  border-color: var(--primary);
+  background-color: rgba(28, 142, 206, 0.05);
+}
+
+.write-review-content {
+  padding: 20px;
+}
+
+.write-review-content h4 {
+  margin-bottom: 15px;
+  color: var(--primary);
+}
+
+.write-review-content p {
+  margin-bottom: 20px;
+  color: var(--text-muted);
+}
+
+/* Make sure testimonial text doesn't overflow and has consistent height */
+.testimonial-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;  /* Show max 5 lines of text */
+  -webkit-box-orient: vertical;
+  min-height: 100px;
+}

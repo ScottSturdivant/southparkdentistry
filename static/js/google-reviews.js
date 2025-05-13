@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // === GOOGLE REVIEWS ===
+// Updated initGoogleReviews function with better empty review handling
 function initGoogleReviews() {
   const reviewsContainer = document.getElementById('google-reviews');
   if (!reviewsContainer) return;
@@ -30,32 +31,16 @@ function initGoogleReviews() {
     .then(data => {
       console.log('Received data:', data);
       
-      // Check for the structure of the data
-      let reviews = [];
-      
-      if (data.reviews) {
-        // If our function already processed the reviews
-        reviews = data.reviews;
-      } else if (data.result && data.result.reviews) {
-        // If we're getting raw API data
-        reviews = data.result.reviews;
-      }
-      
-      // Filter to only show 5-star reviews
-      reviews = reviews.filter(review => review.rating === 5);
-      
-      // Sort by most recent first
-      reviews.sort((a, b) => b.time - a.time);
-      
-      // Limit to exactly 6 reviews for even display
-      const displayReviews = reviews.slice(0, 6);
-      
-      console.log('Filtered and sorted reviews:', displayReviews);
-      
-      if (!displayReviews || displayReviews.length === 0) {
-        reviewsContainer.innerHTML = '<div class="text-center">No 5-star reviews available at this time.</div>';
+      if (!data.reviews || data.reviews.length === 0) {
+        reviewsContainer.innerHTML = '<div class="text-center">No reviews available at this time.</div>';
         return;
       }
+      
+      // Sort by most recent first (should already be sorted, but just to be sure)
+      data.reviews.sort((a, b) => b.time - a.time);
+      
+      // Limit to 6 reviews for display
+      const displayReviews = data.reviews.slice(0, 6);
       
       // Create HTML for reviews
       const reviewsHTML = displayReviews.map(review => `
@@ -88,6 +73,27 @@ function initGoogleReviews() {
           ${reviewsHTML}
         </div>
       `;
+      
+      // If we don't have enough reviews to fill the grid, add a special message in the last slot
+      if (displayReviews.length < 6 && displayReviews.length > 0) {
+        const reviewsSlider = reviewsContainer.querySelector('.reviews-slider');
+        const emptySlots = 6 - displayReviews.length;
+        
+        for (let i = 0; i < emptySlots; i++) {
+          const writeReviewElement = document.createElement('div');
+          writeReviewElement.className = 'testimonial review-item write-review-prompt';
+          writeReviewElement.innerHTML = `
+            <div class="write-review-content">
+              <h4>Love Your Experience?</h4>
+              <p>We appreciate your feedback! Share your experience with others by leaving a review.</p>
+              <a href="https://search.google.com/local/writereview?placeid=${placeId}" target="_blank" class="btn btn-primary">
+                <i class="fa fa-pencil" aria-hidden="true"></i> Write a Review
+              </a>
+            </div>
+          `;
+          reviewsSlider.appendChild(writeReviewElement);
+        }
+      }
     })
     .catch(error => {
       console.error('Error fetching reviews:', error);
