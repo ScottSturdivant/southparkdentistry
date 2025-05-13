@@ -983,9 +983,11 @@ img {
 
 .reviews-slider {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* Always show 3 columns on desktop */
   gap: 25px;
-}
+  max-width: 1200px;
+  margin: 0 auto;
+  }
 
 .review-item {
   display: flex;
@@ -1063,5 +1065,10 @@ img {
   
   .reviews-slider {
     grid-template-columns: 1fr;
+  }
+
+  /* Hide all reviews beyond the first 3 on mobile */
+  .review-item:nth-child(n+4) {
+    display: none;
   }
 }

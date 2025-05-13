@@ -31,7 +31,6 @@ function initGoogleReviews() {
       console.log('Received data:', data);
       
       // Check for the structure of the data
-      // The API returns data with result.reviews, but our function might be restructuring it
       let reviews = [];
       
       if (data.reviews) {
@@ -42,18 +41,24 @@ function initGoogleReviews() {
         reviews = data.result.reviews;
       }
       
-      // Filter to only show 5-star reviews if needed
+      // Filter to only show 5-star reviews
       reviews = reviews.filter(review => review.rating === 5);
       
-      console.log('Filtered 5-star reviews:', reviews);
+      // Sort by most recent first
+      reviews.sort((a, b) => b.time - a.time);
       
-      if (!reviews || reviews.length === 0) {
+      // Limit to exactly 6 reviews for even display
+      const displayReviews = reviews.slice(0, 6);
+      
+      console.log('Filtered and sorted reviews:', displayReviews);
+      
+      if (!displayReviews || displayReviews.length === 0) {
         reviewsContainer.innerHTML = '<div class="text-center">No 5-star reviews available at this time.</div>';
         return;
       }
       
       // Create HTML for reviews
-      const reviewsHTML = reviews.map(review => `
+      const reviewsHTML = displayReviews.map(review => `
         <div class="testimonial review-item">
           <div class="review-header">
             <div class="review-author-info">
@@ -69,10 +74,13 @@ function initGoogleReviews() {
         </div>
       `).join('');
       
+      // Get the place ID for the "Write a Review" button
+      const placeId = reviewsContainer.dataset.placeid;
+      
       reviewsContainer.innerHTML = `
         <div class="reviews-heading">
           <h3>What Our Patients Say</h3>
-          <a href="#" onclick="window.open('https://search.google.com/local/writereview?placeid=${reviewsContainer.dataset.placeid}', '_blank')" class="btn btn-primary review-btn">
+          <a href="https://search.google.com/local/writereview?placeid=${placeId}" target="_blank" class="btn btn-primary review-btn">
             <i class="fa fa-pencil" aria-hidden="true"></i> Write a Review
           </a>
         </div>
