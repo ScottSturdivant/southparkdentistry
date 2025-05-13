@@ -63,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Business Hours -->
                 <div class="pure-u-1 pure-u-xl-1-4 pure-u-md-1-2">
                     <div class="card">
@@ -75,10 +75,12 @@
                             <table class="pure-table" style="width:100%">
                                 <tbody>
                                     {{ $i := 0 }}
-                                    {{ range $day, $hours := .Site.Data.hours }}
+                                    {{ $orderedDays := slice "monday" "tuesday" "wednesday" "thursday" "friday" "saturday" "sunday" }}
+                                    {{ range $orderedDays }}
                                     {{ $i = add $i 1 }}
+                                    {{ $hours := index $.Site.Data.hours . }}
                                     <tr class="{{ if eq (mod $i 2) 0 }}pure-table-odd{{ end }}">
-                                        <td>{{ humanize $day }}</td>
+                                        <td>{{ humanize . }}</td>
                                         {{ if $hours.open }}
                                         <td>{{ $hours.open }} AM - {{ $hours.close }} PM</td>
                                         {{ else }}
@@ -202,6 +204,9 @@
             </div>
         </div>
     </section>
+
+    {{ partial "google-reviews.html" . }}
+
 
     <!-- Call to Action Section -->
     <section class="section py-5" style="background-color: #1c8ece; color: white;">
