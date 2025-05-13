@@ -12,6 +12,7 @@ disableKinds = ["taxonomy", "taxonomyTerm"]
   fax = "3037388823"
   email = "southparkdentistry120@gmail.com"
   timezone = "America/Denver"
+  googlePlaceId = "ChIJC7VBbiSCbIcRPcrZOPH7Ra4"
 
 [markup.goldmark.renderer]
   unsafe = true
