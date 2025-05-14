@@ -467,10 +467,11 @@ img {
   background-color: white;
   box-shadow: 0 5px 15px var(--shadow);
   margin: 20px auto;
-  max-width: 800px;
   position: relative;
   transition: all 0.3s ease;
   cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .testimonial::before {
@@ -988,11 +989,14 @@ img {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+  min-width: 0;
   min-height: 200px;
   padding: 25px;
   position: relative;
   animation: fadeInUp 0.6s ease both;
   animation-delay: calc(var(--review-index, 0) * 0.1s);
+  box-sizing: border-box;
 }
 
 .review-header {
