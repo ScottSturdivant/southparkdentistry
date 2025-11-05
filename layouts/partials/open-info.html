@@ -1,7 +1,17 @@
 {{ $weekday := now.Format "Monday" | lower }}
 {{ $hours := index .Site.Data.hours $weekday }}
+{{ $today := now.Format "2006-01-02" }}
 
-{{ if $hours.open }}
+{{/* Check if today is a holiday */}}
+{{ $isHoliday := false }}
+{{ $holidays := slice "2025-11-27" "2025-11-28" }}
+{{ range $holidays }}
+  {{ if eq $today . }}
+    {{ $isHoliday = true }}
+  {{ end }}
+{{ end }}
+
+{{ if and $hours.open (not $isHoliday) }}
   Open today until {{ $hours.close }} PM
 {{ else }}
   {{ $found := false }}

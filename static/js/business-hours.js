@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
         sunday: { open: null, close: null }
     };
 
+    // Holiday closures (specific dates when office is closed)
+    const holidays = [
+        { date: '2025-11-27', name: 'Thanksgiving' },
+        { date: '2025-11-28', name: 'Day after Thanksgiving' }
+    ];
+
     // Days of the week (starting from Monday to match the configuration)
     const daysOfWeek = [
         'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'
@@ -23,11 +29,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const hoursDisplay = document.getElementById('business-hours-status');
     if (!hoursDisplay) return;
 
+    // Check if a given date is a holiday
+    function isHoliday(date) {
+        const dateString = date.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+        return holidays.find(holiday => holiday.date === dateString);
+    }
+
     // Update the hours display based on current time
     function updateHoursDisplay() {
         const now = new Date();
         const currentDay = daysOfWeek[now.getDay()]; // 0 = Sunday, 1 = Monday, etc.
-        
+
+        // Check if today is a holiday
+        const holiday = isHoliday(now);
+        if (holiday) {
+            showNextOpenDay(currentDay, now);
+            return;
+        }
+
         // Check if we have hours for today
         const todayHours = businessHours[currentDay];
         
@@ -46,20 +65,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 hoursDisplay.textContent = `Open today until ${todayHours.close.replace('17:', '5:').replace('18:', '6:')} PM`;
             } else {
                 // We've closed for today, find the next open day
-                showNextOpenDay(currentDay);
+                showNextOpenDay(currentDay, now);
             }
         } else {
             // Closed today, find the next open day
-            showNextOpenDay(currentDay);
+            showNextOpenDay(currentDay, now);
         }
     }
-    
+
     // Find and display the next day we'll be open
-    function showNextOpenDay(currentDay) {
+    function showNextOpenDay(currentDay, currentDate) {
         let nextDay = currentDay;
+        let checkDate = new Date(currentDate);
         let daysChecked = 0;
         let foundOpenDay = false;
-        
+
         // Check up to 7 days to find the next open day
         while (daysChecked < 7 && !foundOpenDay) {
             // Move to the next day (with wrap-around)
@@ -67,7 +87,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const nextIndex = (currentIndex + 1) % 7;
             nextDay = daysOfWeek[nextIndex];
             daysChecked++;
-            
+
+            // Move the date forward by one day
+            checkDate.setDate(checkDate.getDate() + 1);
+
+            // Check if this day is a holiday
+            if (isHoliday(checkDate)) {
+                continue; // Skip holidays
+            }
+
             // Check if this day has open hours
             if (businessHours[nextDay] && businessHours[nextDay].open) {
                 foundOpenDay = true;
