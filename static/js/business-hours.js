@@ -17,7 +17,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Holiday closures (specific dates when office is closed)
     const holidays = [
         { date: '2025-11-27', name: 'Thanksgiving' },
-        { date: '2025-11-28', name: 'Day after Thanksgiving' }
+        { date: '2025-11-28', name: 'Day after Thanksgiving' },
+        { date: '2025-12-24', name: 'Christmas Eve' },
+        { date: '2025-12-25', name: 'Christmas Day' },
+        { date: '2025-12-26', name: 'Day after Christmas' },
+        { date: '2025-12-31', name: 'New Year\'s Eve' },
+        { date: '2026-01-01', name: 'New Year\'s Day' }
     ];
 
     // Days of the week (starting from Monday to match the configuration)

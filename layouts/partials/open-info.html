@@ -4,7 +4,7 @@
 
 {{/* Check if today is a holiday */}}
 {{ $isHoliday := false }}
-{{ $holidays := slice "2025-11-27" "2025-11-28" }}
+{{ $holidays := slice "2025-11-27" "2025-11-28" "2025-12-24" "2025-12-25" "2025-12-26" "2025-12-31" "2026-01-01" }}
 {{ range $holidays }}
   {{ if eq $today . }}
     {{ $isHoliday = true }}
